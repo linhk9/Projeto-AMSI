@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "pt.ipleiria.estg.dei.lojacalcado"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "pt.ipleiria.estg.dei.lojacalcado"

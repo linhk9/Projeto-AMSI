@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Loja Calcado</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_login">Login</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_registar">Registar</string>
+    <string name="txt_configurar_api">Configurar API</string>
+    <string name="txt_api">http://localhost/api</string>
+    <string name="txt_guardar">Guardar</string>
+    <string name="txt_username">Username</string>
+    <string name="txt_primeironome">Primeiro Nome</string>
+    <string name="txt_ultimonome">Último Nome</string>
+    <string name="txt_telemovel">Telemóvel</string>
+    <string name="txt_morada">Morada</string>
 </resources>
