@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.lojacalcado;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -12,7 +13,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etUsername , etPassword;
     public static final int MIN_CHAR = 4;
-    public  static final  String USERNAME = "USERNAME";
+    public String savedApiUrl;
 
 
     @Override
@@ -24,6 +25,9 @@ public class LoginActivity extends AppCompatActivity {
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
+
+        SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
+        savedApiUrl = sharedPreferencesAPI.getString("API_URL", "");
     }
 
     private boolean isUsernameValido(String username)
@@ -55,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, MenuMainActivity.class);
-        intent.putExtra(USERNAME, username);
         startActivity(intent);
         finish();
     }
@@ -63,12 +66,10 @@ public class LoginActivity extends AppCompatActivity {
     public void OnClickRegistar(View view) {
         Intent intent = new Intent(this, RegistarActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void OnClickConfigurarAPI(View view) {
         Intent intent = new Intent(this, ConfigurarApiActivity.class);
         startActivity(intent);
-        finish();
     }
 }

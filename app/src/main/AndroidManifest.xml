@@ -18,10 +18,12 @@
         tools:targetApi="31">
         <activity
             android:name=".ConfigurarApiActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".RegistarActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".MenuMainActivity"
             android:exported="false"
