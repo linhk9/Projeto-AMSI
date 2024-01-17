@@ -26,6 +26,7 @@ import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 public class RegistarActivity extends AppCompatActivity {
     private EditText etUsername , etPassword, etEmail, etPrimeiroNome, etUltimoNome, etTelemovel, etMorada;
     private static RequestQueue volleyQueue = null;
+    public String defaultApiUrl= "http://172.22.21.214/Projeto-SIS-PSI/backend/web/api";
     public String savedApiUrl;
 
 
@@ -37,7 +38,7 @@ public class RegistarActivity extends AppCompatActivity {
         setTitle("Registo");
 
         SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
-        savedApiUrl = sharedPreferencesAPI.getString("API_URL", "");
+        savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);

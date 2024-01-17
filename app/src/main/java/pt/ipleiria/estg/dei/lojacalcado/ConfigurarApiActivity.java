@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 public class ConfigurarApiActivity extends AppCompatActivity {
     private EditText etApiUrl;
+    public String defaultApiUrl= "http://172.22.21.214/Projeto-SIS-PSI/backend/web/api";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class ConfigurarApiActivity extends AppCompatActivity {
 
         // Carregar API URL guardada de SharedPreferences
         SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
-        String savedApiUrl = sharedPreferencesAPI.getString("API_URL", "");
+        String savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
 
         // Se a URL da API existir, carregar para o EditText
         if (!savedApiUrl.isEmpty()) {

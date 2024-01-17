@@ -20,9 +20,11 @@
         <menu>
             <item
                 android:id="@+id/navConfiguracoes"
+                android:icon="@drawable/ic_menu_configuracoes_foreground"
                 android:title="@string/txt_menu_Definicoes" />
             <item
                 android:id="@+id/navLogout"
+                android:icon="@drawable/ic_menu_logout_foreground"
                 android:title="@string/txt_menu_Logout" />
         </menu>
     </item>

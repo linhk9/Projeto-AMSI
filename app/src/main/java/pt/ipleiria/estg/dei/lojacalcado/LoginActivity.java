@@ -14,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etUsername , etPassword;
     public static final int MIN_CHAR = 4;
+    public String defaultApiUrl= "http://172.22.21.214/Projeto-SIS-PSI/backend/web/api";
     public String savedApiUrl;
 
 
@@ -28,14 +29,14 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
 
         SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
-        savedApiUrl = sharedPreferencesAPI.getString("API_URL", "");
+        savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
-        savedApiUrl = sharedPreferencesAPI.getString("API_URL", "");
+        savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
     }
 
     private boolean isUsernameValido(String username)
