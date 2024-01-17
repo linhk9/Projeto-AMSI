@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,6 +31,13 @@ public class LoginActivity extends AppCompatActivity {
         savedApiUrl = sharedPreferencesAPI.getString("API_URL", "");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
+        savedApiUrl = sharedPreferencesAPI.getString("API_URL", "");
+    }
+
     private boolean isUsernameValido(String username)
     {
         if(username == null)
@@ -45,27 +53,34 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void OnClickLogin(View view) {
+        if (!savedApiUrl.isEmpty()) {
+            String username = etUsername.getText().toString();
+            String pass = etPassword.getText().toString();
 
-        String username = etUsername.getText().toString();
-        String pass = etPassword.getText().toString();
+            if(!isUsernameValido(username)) {
+                etUsername.setError("Username inválido");
+                return;
+            }
+            if(!isPasswordValida(pass)) {
+                etPassword.setError("Password inválida");
+                return;
+            }
 
-        if(!isUsernameValido(username)) {
-            etUsername.setError("Username inválido");
-            return;
+            Intent intent = new Intent(this, MenuMainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(getApplicationContext(), "Precisas de definir o URL da API", Toast.LENGTH_SHORT).show();
         }
-        if(!isPasswordValida(pass)) {
-            etPassword.setError("Password inválida");
-            return;
-        }
-
-        Intent intent = new Intent(this, MenuMainActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     public void OnClickRegistar(View view) {
-        Intent intent = new Intent(this, RegistarActivity.class);
-        startActivity(intent);
+        if (!savedApiUrl.isEmpty()) {
+            Intent intent = new Intent(this, RegistarActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "Precisas de definir o URL da API", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void OnClickConfigurarAPI(View view) {
