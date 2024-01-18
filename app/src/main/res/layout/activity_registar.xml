@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/txt_username"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/tvPassword"
@@ -36,7 +37,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/txt_password"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:inputType="textPassword" />
 
     <TextView
         android:id="@+id/tvEmail"
@@ -51,7 +53,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/txt_email"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:inputType="textEmailAddress" />
 
     <TextView
         android:id="@+id/tvPrimeiroNome"
@@ -66,7 +69,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/txt_primeironome"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/tvUltimoNome"
@@ -81,7 +85,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/txt_ultimonome"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/tvTelemovel"
@@ -96,7 +101,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/txt_telemovel"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:inputType="number" />
 
     <TextView
         android:id="@+id/tvMorada"
@@ -111,7 +117,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/txt_morada"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:inputType="text" />
 
     <Button
         android:id="@+id/btnRegistar"
