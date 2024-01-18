@@ -11,16 +11,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class LojaJsonParser {
-    public static String parserJsonLogin(JSONObject response) {
-        String msg = "";
-
-        try {
-            msg = response.getString("message");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+    public static boolean parserJsonLogin(JSONObject response) {
+        if(response.has("username")) {
+            return true;
         }
 
-        return msg;
+        return false;
     }
 
     public static String parserJsonRegisto(JSONObject response) {
