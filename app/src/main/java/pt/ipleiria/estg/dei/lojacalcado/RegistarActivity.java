@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonUserManager;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
 public class RegistarActivity extends AppCompatActivity {
@@ -103,56 +104,7 @@ public class RegistarActivity extends AppCompatActivity {
                 return;
             }
 
-            JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, savedApiUrl + "/users/registo", null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Toast.makeText(getApplicationContext(), LojaJsonParser.parserJsonRegisto(response), Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    String errorMessage = error.getMessage();
-                    if (errorMessage == null) {
-                        errorMessage = "Erro ao registar utilizador";
-                    }
-                    Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
-
-                }
-            }) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Content-Type", "application/json");
-                    return headers;
-                }
-
-                @Override
-                public byte[] getBody() {
-                    try {
-                        JSONObject jsonBody = new JSONObject();
-                        jsonBody.put("username", username);
-                        jsonBody.put("password", password);
-                        jsonBody.put("email", email);
-                        jsonBody.put("primeiroNome", primeiroNome);
-                        jsonBody.put("ultimoNome", ultimoNome);
-                        jsonBody.put("telemovel", telemovel);
-                        jsonBody.put("morada", morada);
-
-                        final String mRequestBody = jsonBody.toString();
-
-                        return mRequestBody.getBytes("utf-8");
-                    } catch (UnsupportedEncodingException e) {
-                        Log.e("RegistarActivity", "Encoding não suportado: " + e.getMessage());
-                        return null;
-                    } catch (JSONException e) {
-                        Log.e("RegistarActivity", "Erro JSON: " + e.getMessage());
-                        return null;
-                    }
-                }
-            };
-
-            volleyQueue.add(req);
+            SingletonUserManager.getInstance(getApplicationContext()).registo(username, password, email, primeiroNome, ultimoNome, telemovel, morada, this);
         }
     }
 }

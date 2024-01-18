@@ -26,6 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonUserManager;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
 public class LoginActivity extends AppCompatActivity {
@@ -90,56 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, savedApiUrl + "/users/login", null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        if (LojaJsonParser.parserJsonLogin(response)) {
-                            Toast.makeText(getApplicationContext(), "Login efetuado com sucesso", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, MenuMainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Erro ao fazer login", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String errorMessage = error.getMessage();
-                        if (errorMessage == null) {
-                            errorMessage = "Erro ao fazer login";
-                        }
-                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                SingletonUserManager.getInstance(getApplicationContext()).login(username, password, this);
 
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> headers = new HashMap<>();
-                        headers.put("Content-Type", "application/json");
-                        return headers;
-                    }
-
-                    @Override
-                    public byte[] getBody() {
-                        try {
-                            JSONObject jsonBody = new JSONObject();
-                            jsonBody.put("username", username);
-                            jsonBody.put("password", password);
-
-                            final String mRequestBody = jsonBody.toString();
-
-                            return mRequestBody.getBytes("utf-8");
-                        } catch (UnsupportedEncodingException e) {
-                            Log.e("LoginActivity", "Encoding não suportado: " + e.getMessage());
-                            return null;
-                        } catch (JSONException e) {
-                            Log.e("LoginActivity", "Erro JSON: " + e.getMessage());
-                            return null;
-                        }
-                    }
-                };
-
-                volleyQueue.add(req);
             }
         } else {
             Toast.makeText(getApplicationContext(), "Precisas de definir o URL da API", Toast.LENGTH_SHORT).show();
