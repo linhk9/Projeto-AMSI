@@ -64,7 +64,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             startActivity(intent);
         } else if (itemId == R.id.navPerfilUtilizador) {
             if (isConnectionInternet) {
-                Intent intent = new Intent(this, ConfigurarApiActivity.class);
+                Intent intent = new Intent(this, PerfilActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();

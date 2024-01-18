@@ -23,6 +23,7 @@ import java.util.Map;
 
 import pt.ipleiria.estg.dei.lojacalcado.LoginActivity;
 import pt.ipleiria.estg.dei.lojacalcado.MenuMainActivity;
+import pt.ipleiria.estg.dei.lojacalcado.PerfilActivity;
 import pt.ipleiria.estg.dei.lojacalcado.RegistarActivity;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
@@ -53,10 +54,11 @@ public class SingletonUserManager {
                     Intent intent = new Intent(activity, MenuMainActivity.class);
                     activity.startActivity(intent);
 
-                    SharedPreferences sharedPreferences = activity.getSharedPreferences("AUTENTICADO", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("AUTENTICADO", true);
-                    editor.apply();
+                    SharedPreferences sharedPreferencesUser = activity.getSharedPreferences("DADOS_USER", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editorUser = sharedPreferencesUser.edit();
+                    editorUser.putBoolean("AUTENTICADO", true);
+                    editorUser.putInt("ID_USERDATA", response.optInt("id_userdata")); // TODO: verificar se está a guardar o id_userdata (falta mudar a api para enviar id_userdata)
+                    editorUser.apply();
 
                     Toast.makeText(activity, "Login efetuado com sucesso", Toast.LENGTH_SHORT).show();
                 } else {
@@ -157,16 +159,16 @@ public class SingletonUserManager {
         volleyQueue.add(req);
     }
 
-    public void perfil(Context context) {
+    public void carregarPerfil(Context context) {
         // TODO: adicionar código para ir buscar o perfil do utilizador e mostrar na activity
     }
 
-    public void editarPerfil(Context context) {
+    public void editarPerfil(String email, String primeiroNome, String ultimoNome, String telemovel, String morada, PerfilActivity activity) {
         // TODO: adicionar código para editar o perfil do utilizador
     }
 
     public void logout(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("AUTENTICADO", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("DADOS_USER", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();

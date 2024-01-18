@@ -6,25 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
 import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonUserManager;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
@@ -33,7 +17,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etUsername , etPassword;
     public static final int MIN_CHAR = 6;
-    private static RequestQueue volleyQueue = null;
     public String defaultApiUrl= "http://172.22.21.214/Projeto-SIS-PSI/backend/web/api";
     public String savedApiUrl;
 
@@ -45,16 +28,14 @@ public class LoginActivity extends AppCompatActivity {
 
         setTitle("Login");
 
-        volleyQueue = Volley.newRequestQueue(getApplicationContext());
-
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
 
         SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
         savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("AUTENTICADO", MODE_PRIVATE);
-        boolean isAuthenticated = sharedPreferences.getBoolean("AUTENTICADO", false);
+        SharedPreferences sharedPreferencesUser = getSharedPreferences("DADOS_USER", MODE_PRIVATE);
+        boolean isAuthenticated = sharedPreferencesUser.getBoolean("AUTENTICADO", false);
 
         // Se estiver autenticado, vai para o menu principal
         if (isAuthenticated) {
@@ -101,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 SingletonUserManager.getInstance(getApplicationContext()).login(username, password, this);
-
             }
         } else {
             Toast.makeText(getApplicationContext(), "Precisas de definir o URL da API", Toast.LENGTH_SHORT).show();
