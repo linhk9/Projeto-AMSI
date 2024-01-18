@@ -50,9 +50,15 @@ public class SingletonUserManager {
             @Override
             public void onResponse(JSONObject response) {
                 if (LojaJsonParser.parserJsonLogin(response)) {
-                    Toast.makeText(activity, "Login efetuado com sucesso", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(activity, MenuMainActivity.class);
                     activity.startActivity(intent);
+
+                    SharedPreferences sharedPreferences = activity.getSharedPreferences("AUTENTICADO", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("AUTENTICADO", true);
+                    editor.apply();
+
+                    Toast.makeText(activity, "Login efetuado com sucesso", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(activity, "Erro ao fazer login", Toast.LENGTH_SHORT).show();
                 }
@@ -149,5 +155,22 @@ public class SingletonUserManager {
         };
 
         volleyQueue.add(req);
+    }
+
+    public void perfil(Context context) {
+        // TODO: adicionar código para ir buscar o perfil do utilizador e mostrar na activity
+    }
+
+    public void editarPerfil(Context context) {
+        // TODO: adicionar código para editar o perfil do utilizador
+    }
+
+    public void logout(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AUTENTICADO", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
     }
 }

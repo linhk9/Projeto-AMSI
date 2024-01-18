@@ -52,6 +52,15 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
         savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("AUTENTICADO", MODE_PRIVATE);
+        boolean isAuthenticated = sharedPreferences.getBoolean("AUTENTICADO", false);
+
+        // Se estiver autenticado, vai para o menu principal
+        if (isAuthenticated) {
+            Intent intent = new Intent(this, MenuMainActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
