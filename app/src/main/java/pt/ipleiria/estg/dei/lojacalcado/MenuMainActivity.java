@@ -53,12 +53,12 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
-        carrgarDinamico();
     }
 
-    private void carrgarDinamico() {
+    private void carregarDinamico() {
 
-        //TODO: Carregar os dados com a API
+        // TODO: Mover isto para fragment e carregar dinamicamente
+        // TODO: Carregar os dados com a API
 
         LinearLayout llContainer = new LinearLayout(this);
         llContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));

@@ -61,6 +61,8 @@ public class ListaProdutosFragment extends Fragment implements ProdutosListener 
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_pesquisa, menu);
 
+        // TODO: Arranjar a pesquisa, está a crashar a app
+
         MenuItem itemPesquisa = menu.findItem(R.id.itemPesquisa);
         searchView = (SearchView) itemPesquisa.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
