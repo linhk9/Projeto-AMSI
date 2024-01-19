@@ -27,7 +27,7 @@ public class RegistarActivity extends AppCompatActivity {
 
         setTitle("Registo");
 
-        SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
+        SharedPreferences sharedPreferencesAPI = getSharedPreferences("API", MODE_PRIVATE);
         savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
 
         etUsername = findViewById(R.id.etUsername);

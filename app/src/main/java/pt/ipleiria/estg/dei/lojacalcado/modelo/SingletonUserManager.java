@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import pt.ipleiria.estg.dei.lojacalcado.LoginActivity;
 import pt.ipleiria.estg.dei.lojacalcado.MenuMainActivity;
 import pt.ipleiria.estg.dei.lojacalcado.PerfilActivity;
 import pt.ipleiria.estg.dei.lojacalcado.RegistarActivity;
+import pt.ipleiria.estg.dei.lojacalcado.listeners.UserListener;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
 public class SingletonUserManager {
@@ -32,18 +34,23 @@ public class SingletonUserManager {
     private static RequestQueue volleyQueue = null;
     private String defaultApiUrl= "http://172.22.21.214/Projeto-SIS-PSI/backend/web/api";
     private String savedApiUrl;
-
-    private SingletonUserManager(Context context) {
-        volleyQueue = Volley.newRequestQueue(context);
-        SharedPreferences sharedPreferencesAPI = context.getSharedPreferences("API_URL", Context.MODE_PRIVATE);
-        savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
-    }
+    private UserListener userListener;
 
     public static synchronized SingletonUserManager getInstance(Context context) {
         if (instance == null) {
             instance = new SingletonUserManager(context);
+            volleyQueue = Volley.newRequestQueue(context);
         }
         return instance;
+    }
+
+    private SingletonUserManager(Context context) {
+        SharedPreferences sharedPreferencesAPI = context.getSharedPreferences("API", Context.MODE_PRIVATE);
+        savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
+    }
+
+    public void setUserListener(UserListener userListener) {
+        this.userListener = userListener;
     }
 
     public void login(String username, String password, LoginActivity activity) {
@@ -57,7 +64,8 @@ public class SingletonUserManager {
                     SharedPreferences sharedPreferencesUser = activity.getSharedPreferences("DADOS_USER", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editorUser = sharedPreferencesUser.edit();
                     editorUser.putBoolean("AUTENTICADO", true);
-                    editorUser.putInt("ID_USERDATA", response.optInt("id_userdata")); // TODO: verificar se está a guardar o id_userdata (falta mudar a api para enviar id_userdata)
+                    editorUser.putInt("ID_USER", response.optInt("id"));
+                    editorUser.putInt("ID_USERDATA", response.optInt("id_userdata"));
                     editorUser.apply();
 
                     Toast.makeText(activity, "Login efetuado com sucesso", Toast.LENGTH_SHORT).show();
@@ -92,10 +100,7 @@ public class SingletonUserManager {
 
                     final String mRequestBody = jsonBody.toString();
 
-                    return mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException e) {
-                    Log.e("LoginActivity", "Encoding não suportado: " + e.getMessage());
-                    return null;
+                    return mRequestBody.getBytes(StandardCharsets.UTF_8);
                 } catch (JSONException e) {
                     Log.e("LoginActivity", "Erro JSON: " + e.getMessage());
                     return null;
@@ -145,10 +150,7 @@ public class SingletonUserManager {
 
                     final String mRequestBody = jsonBody.toString();
 
-                    return mRequestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException e) {
-                    Log.e("RegistarActivity", "Encoding não suportado: " + e.getMessage());
-                    return null;
+                    return mRequestBody.getBytes(StandardCharsets.UTF_8);
                 } catch (JSONException e) {
                     Log.e("RegistarActivity", "Erro JSON: " + e.getMessage());
                     return null;
@@ -159,12 +161,82 @@ public class SingletonUserManager {
         volleyQueue.add(req);
     }
 
-    public void carregarPerfil(Context context) {
-        // TODO: adicionar código para ir buscar o perfil do utilizador e mostrar na activity
+    public void carregarPerfil(PerfilActivity activity) {
+        SharedPreferences sharedPreferencesUser = activity.getSharedPreferences("DADOS_USER", Context.MODE_PRIVATE);
+        int savedUserId = sharedPreferencesUser.getInt("ID_USER", 0);
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, savedApiUrl + "/users/" + savedUserId + "/userdata", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                User user = LojaJsonParser.parserJsonUser(response);
+
+                if (userListener != null)
+                    userListener.onRefreshDados(user);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMessage = error.getMessage();
+                if (errorMessage == null) {
+                    errorMessage = "Erro ao carregar utilizador";
+                }
+                Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        volleyQueue.add(req);
     }
 
     public void editarPerfil(String email, String primeiroNome, String ultimoNome, String telemovel, String morada, PerfilActivity activity) {
-        // TODO: adicionar código para editar o perfil do utilizador
+        SharedPreferences sharedPreferencesUser = activity.getSharedPreferences("DADOS_USER", Context.MODE_PRIVATE);
+        int savedUserId = sharedPreferencesUser.getInt("ID_USER", 0);
+
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, savedApiUrl + "/users/" + savedUserId + "/atualizar", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(activity, "Perfil editado com sucesso!", Toast.LENGTH_SHORT).show();
+                activity.finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorMessage = error.getMessage();
+                if (errorMessage == null) {
+                    errorMessage = "Erro ao editar utilizador";
+                }
+                Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show();
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            public byte[] getBody() {
+                try {
+                    JSONObject jsonBody = new JSONObject();
+                    jsonBody.put("email", email);
+                    jsonBody.put("primeiroNome", primeiroNome);
+                    jsonBody.put("ultimoNome", ultimoNome);
+                    jsonBody.put("telemovel", telemovel);
+                    jsonBody.put("morada", morada);
+
+                    final String mRequestBody = jsonBody.toString();
+
+                    return mRequestBody.getBytes(StandardCharsets.UTF_8);
+                } catch (JSONException e) {
+                    Log.e("PerfilActivity", "Erro JSON: " + e.getMessage());
+                    return null;
+                }
+            }
+        };
+
+        volleyQueue.add(req);
     }
 
     public void logout(Context context) {

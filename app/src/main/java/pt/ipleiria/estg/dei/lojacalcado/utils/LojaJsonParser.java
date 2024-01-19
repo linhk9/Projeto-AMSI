@@ -10,13 +10,31 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pt.ipleiria.estg.dei.lojacalcado.modelo.User;
+
 public class LojaJsonParser {
-    public static boolean parserJsonLogin(JSONObject response) {
-        if(response.has("username")) {
-            return true;
+    public static User parserJsonUser(JSONObject response) {
+        User user = null;
+
+        try {
+            int id = response.getInt("id");
+            int telemovel = response.getInt("telemovel");
+            String username = response.getString("username");
+            String email = response.getString("email");
+            String primeiroNome = response.getString("primeiroNome");
+            String ultimoNome = response.getString("ultimoNome");
+            String morada = response.getString("morada");
+
+            user = new User(id, username, email, primeiroNome, ultimoNome, telemovel, morada);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        return false;
+        return user;
+    }
+
+    public static boolean parserJsonLogin(JSONObject response) {
+        return response.has("username");
     }
 
     public static String parserJsonRegisto(JSONObject response) {

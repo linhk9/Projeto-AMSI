@@ -21,7 +21,7 @@ public class ConfigurarApiActivity extends AppCompatActivity {
         etApiUrl = findViewById(R.id.etApiUrl);
 
         // Carregar API URL guardada de SharedPreferences
-        SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
+        SharedPreferences sharedPreferencesAPI = getSharedPreferences("API", MODE_PRIVATE);
         String savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
 
         // Se a URL da API existir, carregar para o EditText
@@ -33,7 +33,7 @@ public class ConfigurarApiActivity extends AppCompatActivity {
     public void OnClickGuardar(View view) {
         String apiText = etApiUrl.getText().toString();
 
-        SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
+        SharedPreferences sharedPreferencesAPI = getSharedPreferences("API", MODE_PRIVATE);
         SharedPreferences.Editor editorAPI = sharedPreferencesAPI.edit();
 
         editorAPI.putString("API_URL", apiText);

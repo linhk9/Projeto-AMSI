@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import pt.ipleiria.estg.dei.lojacalcado.listeners.UserListener;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonUserManager;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.User;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
-public class PerfilActivity extends AppCompatActivity {
+public class PerfilActivity extends AppCompatActivity implements UserListener {
     private EditText etUsername, etEmail, etPrimeiroNome, etUltimoNome, etTelemovel, etMorada;
     public String defaultApiUrl= "http://172.22.21.214/Projeto-SIS-PSI/backend/web/api";
     public String savedApiUrl;
@@ -24,6 +26,8 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         setTitle("Perfil do Utilizador");
+
+        SingletonUserManager.getInstance(getApplicationContext()).setUserListener(this);
 
         SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
         savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
@@ -53,7 +57,7 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
-    public void OnClickRegistarUtilizador(View view) {
+    public void OnClickGuardarEdicao(View view) {
         if (!LojaJsonParser.isConnectionInternet(getApplicationContext())) {
             Toast.makeText(getApplicationContext(), "Não tem ligação á internet", Toast.LENGTH_SHORT).show();
         } else {
@@ -76,6 +80,20 @@ public class PerfilActivity extends AppCompatActivity {
             }
 
             SingletonUserManager.getInstance(getApplicationContext()).editarPerfil(email, primeiroNome, ultimoNome, telemovel, morada, this);
+        }
+    }
+
+    @Override
+    public void onRefreshDados(User user) {
+        if (user != null) {
+            etUsername.setText(user.getUsername());
+            etEmail.setText(user.getEmail());
+            etPrimeiroNome.setText(user.getPrimeiroNome());
+            etUltimoNome.setText(user.getUltimoNome());
+            etTelemovel.setText(user.getTelemovel() + "");
+            etMorada.setText(user.getMorada());
+        } else {
+            Toast.makeText(getApplicationContext(), "Erro ao carregar perfil", Toast.LENGTH_SHORT).show();
         }
     }
 }
