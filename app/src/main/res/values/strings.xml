@@ -14,7 +14,7 @@
     <string name="txt_morada">Morada</string>
     <string name="menuRemover">Remover</string>
     <string name="txt_menu_ListaProdutos">Lista de Produtos</string>
-    <string name="txt_menu_Historico">Histórico de Produtos</string>
+    <string name="txt_menu_Historico">Histórico de Compras</string>
     <string name="txt_menu_PerfilUtilizador">Perfil de Utilizador</string>
     <string name="txt_menu_Definicoes">Definições</string>
     <string name="txt_menu_Logout">Logout</string>
