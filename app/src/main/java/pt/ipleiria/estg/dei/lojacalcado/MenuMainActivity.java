@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,11 +26,9 @@ import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
 
 public class MenuMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private FragmentManager fragmentManager;
     private NavigationView navigationView;
     private DrawerLayout drawer;
-
-
-    // TODO: Adicionar botão de carrinho de compras no optionsMenu
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +46,38 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         drawer.addDrawerListener(toggle);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        fragmentManager = getSupportFragmentManager();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_carrinho, menu);
+
+        MenuItem itemCarrinho = menu.findItem(R.id.itemCarrinho);
+        itemCarrinho.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+//                Intent intent = new Intent(MenuMainActivity.this, CarrinhoActivity.class);
+//                startActivity(intent);
+                return true;
+            }
+        });
+
+        return true;
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment fragment = null;
+
         boolean isConnectionInternet = LojaJsonParser.isConnectionInternet(getApplicationContext());
         int itemId = item.getItemId();
 
         if (itemId == R.id.navListaProdutos) {
             if (isConnectionInternet) {
-                Intent intent = new Intent(this, ConfigurarApiActivity.class);
-                startActivity(intent);
+                fragment = new ListaProdutosFragment();
+                setTitle(item.getTitle());
             } else {
                 Toast.makeText(this, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
             }
@@ -76,6 +98,9 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             SingletonUserManager.getInstance(getApplicationContext()).logout(this);
             finish();
         }
+
+        if (fragment != null)
+            fragmentManager.beginTransaction().replace(R.id.contentFragment, fragment).commit();
 
         drawer.closeDrawer(GravityCompat.START);
         return true;

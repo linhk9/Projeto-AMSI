@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.lojacalcado.modelo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -61,11 +62,15 @@ public class SingletonUserManager {
                     Intent intent = new Intent(activity, MenuMainActivity.class);
                     activity.startActivity(intent);
 
+                    String credenciais = username + ":" + password;
+                    String auth = "Basic " + Base64.encodeToString(credenciais.getBytes(), Base64.NO_WRAP);
+
                     SharedPreferences sharedPreferencesUser = activity.getSharedPreferences("DADOS_USER", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editorUser = sharedPreferencesUser.edit();
                     editorUser.putBoolean("AUTENTICADO", true);
                     editorUser.putInt("ID_USER", response.optInt("id"));
                     editorUser.putInt("ID_USERDATA", response.optInt("id_userdata"));
+                    editorUser.putString("API_AUTH", auth);
                     editorUser.apply();
 
                     Toast.makeText(activity, "Login efetuado com sucesso", Toast.LENGTH_SHORT).show();
@@ -115,7 +120,7 @@ public class SingletonUserManager {
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, savedApiUrl + "/users/registo", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(activity, LojaJsonParser.parserJsonRegisto(response), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, LojaJsonParser.parserJsonMessage(response), Toast.LENGTH_SHORT).show();
                 activity.finish();
             }
         }, new Response.ErrorListener() {
