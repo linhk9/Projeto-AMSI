@@ -62,16 +62,16 @@ public class SingletonGestorFaturas {
 
     public void getAllFaturas(final Context context) {
         if (!LojaJsonParser.isConnectionInternet(context)) {
-            Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Não tem ligação á internet", Toast.LENGTH_SHORT).show();
             return;
         }
 
         SharedPreferences sharedPreferencesUser = context.getSharedPreferences("DADOS_USER", Context.MODE_PRIVATE);
-        int savedApiUserdataId = sharedPreferencesUser.getInt("ID_USERDATA", 0);
+        int savedUserdataId = sharedPreferencesUser.getInt("ID_USERDATA", 0);
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, savedApiUrl + "/faturas/userdata/" + savedApiUserdataId, null, new Response.Listener<JSONObject>() {
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, savedApiUrl + "/faturas/userdata/" + savedUserdataId, null, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONArray response) {
                 faturas = LojaJsonParser.parserJsonFaturas(response);
 
                 if (faturasListener != null)
