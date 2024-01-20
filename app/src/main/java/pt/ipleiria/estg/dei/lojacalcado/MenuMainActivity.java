@@ -69,8 +69,8 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         itemCarrinho.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
-//                Intent intent = new Intent(MenuMainActivity.this, CarrinhoActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MenuMainActivity.this, CarrinhoActivity.class);
+                startActivity(intent);
                 return true;
             }
         });
