@@ -33,4 +33,8 @@
     <string name="tamanho">Tamanho:</string>
     <string name="cores">Cores:</string>
     <string name="txt_menu_Dashboard">Dashboard</string>
+    <string name="data_da_compra">Data da Compra: </string>
+    <string name="total_produtos_compras">Total Produtos Compras: </string>
+    <string name="preco_total">Preço Total: </string>
+    <string name="id">Id: </string>
 </resources>

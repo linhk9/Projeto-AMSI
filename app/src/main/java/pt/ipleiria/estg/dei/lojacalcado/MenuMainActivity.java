@@ -100,8 +100,8 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
                 Toast.makeText(this, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
             }
         } else if (itemId == R.id.navHistorico) {
-            Intent intent = new Intent(this, ConfigurarApiActivity.class);
-            startActivity(intent);
+            fragment = new ListaFaturasFragment();
+            setTitle(item.getTitle());
         } else if (itemId == R.id.navPerfilUtilizador) {
             if (isConnectionInternet) {
                 Intent intent = new Intent(this, PerfilActivity.class);
