@@ -22,10 +22,12 @@ public class ListaProdutosAdaptador extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<Produto> produtos;
+    private ArrayList<Produto> produtosOriginais;
 
     public ListaProdutosAdaptador(Context context, ArrayList<Produto> produtos) {
         this.context = context;
         this.produtos = produtos;
+        this.produtosOriginais = new ArrayList<>(produtos);
     }
 
     @Override
@@ -88,5 +90,23 @@ public class ListaProdutosAdaptador extends BaseAdapter {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imgCapa);
         }
+    }
+
+    public void filtrar(String query) {
+        if (query.isEmpty()) {
+            this.produtos = new ArrayList<>(produtosOriginais);
+        } else {
+            ArrayList<Produto> produtosFiltrados = new ArrayList<>();
+
+            for (Produto produto : produtosOriginais) {
+                if (produto.getNome().toLowerCase().contains(query.toLowerCase())) {
+                    produtosFiltrados.add(produto);
+                }
+            }
+
+            this.produtos = produtosFiltrados;
+        }
+
+        notifyDataSetChanged();
     }
 }

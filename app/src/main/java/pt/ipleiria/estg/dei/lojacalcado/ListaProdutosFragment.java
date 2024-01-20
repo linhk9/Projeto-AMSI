@@ -61,26 +61,18 @@ public class ListaProdutosFragment extends Fragment implements ProdutosListener 
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_pesquisa, menu);
 
-        // TODO: Arranjar a pesquisa, está a crashar a app
-
         MenuItem itemPesquisa = menu.findItem(R.id.itemPesquisa);
         searchView = (SearchView) itemPesquisa.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // Quando o utilizador submete a pesquisa
             @Override
             public boolean onQueryTextSubmit(String query) {
+                ((ListaProdutosAdaptador) lvProdutos.getAdapter()).filtrar(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ArrayList<Produto> tempListaProdutos = new ArrayList<>();
-                for (Produto p : produtos) {
-                    if (p.getNome().toLowerCase().contains(newText.toLowerCase())) {
-                        tempListaProdutos.add(p);
-                    }
-                }
-                lvProdutos.setAdapter(new ListaProdutosAdaptador(getContext(), tempListaProdutos));
+                ((ListaProdutosAdaptador) lvProdutos.getAdapter()).filtrar(newText);
                 return false;
             }
         });
