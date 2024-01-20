@@ -187,4 +187,14 @@ public class SingletonGestorCarrinho {
 
         volleyQueue.add(req);
     }
+
+    public int getTotalProdutosCarrinho() {
+        int totalProdutosCarrinho = 0;
+        for (Carrinho c : carrinho) {
+            for (CarrinhoLinha cl : c.getCarrinhoLinhas()) {
+                totalProdutosCarrinho += cl.getQuantidade();
+            }
+        }
+        return totalProdutosCarrinho;
+    }
 }

@@ -128,4 +128,8 @@ public class SingletonGestorProdutos {
             volleyQueue.add(req);
         }
     }
+
+    public int getTotalProdutos() {
+        return produtos.size();
+    }
 }

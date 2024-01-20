@@ -115,4 +115,8 @@ public class SingletonGestorFaturas {
 
         volleyQueue.add(req);
     }
+
+    public int getTotalFaturas() {
+        return faturas.size();
+    }
 }

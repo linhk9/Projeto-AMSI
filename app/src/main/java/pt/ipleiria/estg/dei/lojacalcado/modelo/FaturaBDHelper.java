@@ -82,7 +82,6 @@ public class FaturaBDHelper extends SQLiteOpenHelper {
         ArrayList<Fatura> faturas = new ArrayList<>();
 
         Cursor cursor = this.db.query(TABLE_NAME, new String[]{ID, ID_USERDATA, DATA}, null, null, null, null, null);
-        // TODO: buscar pelo nome da coluna
         if (cursor.moveToFirst()) {
             do {
                 Fatura auxFatura = new Fatura(
@@ -102,7 +101,6 @@ public class FaturaBDHelper extends SQLiteOpenHelper {
         ArrayList<FaturaLinha> faturaLinhas = new ArrayList<>();
 
         Cursor cursor = this.db.query(TABLE_NAME_LINHAS, new String[]{ID, ID_FATURA, ID_PRODUTO, QUANTIDADE, PRECO}, null, null, null, null, null);
-        // TODO: buscar pelo nome da coluna
         if (cursor.moveToFirst()) {
             do {
                 FaturaLinha faturaLinha = new FaturaLinha(

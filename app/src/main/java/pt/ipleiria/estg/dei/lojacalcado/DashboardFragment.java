@@ -15,11 +15,18 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorCarrinho;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorFaturas;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorProdutos;
+import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
 
 public class DashboardFragment extends Fragment {
+    int totalProdutosCarrinho = 0;
+    int totalProdutosLoja = 0;
+    int totalFaturasEmitidas = 0;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -31,7 +38,13 @@ public class DashboardFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        // TODO: Carregar os dados com a API
+        if (!LojaJsonParser.isConnectionInternet(getContext())) {
+            Toast.makeText(getContext(), "Não tem ligação á internet", Toast.LENGTH_SHORT).show();
+        } else {
+            totalProdutosCarrinho = SingletonGestorCarrinho.getInstance(getContext()).getTotalProdutosCarrinho();
+            totalProdutosLoja = SingletonGestorProdutos.getInstance(getContext()).getTotalProdutos();
+            totalFaturasEmitidas = SingletonGestorFaturas.getInstance(getContext()).getTotalFaturas();
+        }
 
         LinearLayout llContainer = new LinearLayout(container.getContext());
         llContainer.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -55,7 +68,7 @@ public class DashboardFragment extends Fragment {
         ProdutosCarrinho.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         ProdutosCarrinho.setTextColor(Color.BLACK);
         ProdutosCarrinho.setTextSize(25);
-        ProdutosCarrinho.setText("15");
+        ProdutosCarrinho.setText(totalProdutosCarrinho + "");
         llContainer.addView(ProdutosCarrinho);
 
         TextView textView2 = new TextView(container.getContext());
@@ -70,7 +83,7 @@ public class DashboardFragment extends Fragment {
         ProdutosLoja.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         ProdutosLoja.setTextColor(Color.BLACK);
         ProdutosLoja.setTextSize(25);
-        ProdutosLoja.setText("50");
+        ProdutosLoja.setText(totalProdutosLoja + "");
         llContainer.addView(ProdutosLoja);
 
         TextView textView3 = new TextView(container.getContext());
@@ -85,7 +98,7 @@ public class DashboardFragment extends Fragment {
         FaturasEmitidas.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         FaturasEmitidas.setTextColor(Color.BLACK);
         FaturasEmitidas.setTextSize(25);
-        FaturasEmitidas.setText("3");
+        FaturasEmitidas.setText(totalFaturasEmitidas + "");
         llContainer.addView(FaturasEmitidas);
 
         FrameLayout frameLayout = view.findViewById(R.id.dashboard_frame);
