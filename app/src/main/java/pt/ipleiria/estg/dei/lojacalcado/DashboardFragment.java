@@ -38,12 +38,13 @@ public class DashboardFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        totalFaturasEmitidas = SingletonGestorFaturas.getInstance(getContext()).getTotalFaturas();
+
         if (!LojaJsonParser.isConnectionInternet(getContext())) {
-            Toast.makeText(getContext(), "Não tem ligação á internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Não tem ligação á internet para carregar os dados", Toast.LENGTH_SHORT).show();
         } else {
             totalProdutosCarrinho = SingletonGestorCarrinho.getInstance(getContext()).getTotalProdutosCarrinho();
             totalProdutosLoja = SingletonGestorProdutos.getInstance(getContext()).getTotalProdutos();
-            totalFaturasEmitidas = SingletonGestorFaturas.getInstance(getContext()).getTotalFaturas();
         }
 
         LinearLayout llContainer = new LinearLayout(container.getContext());

@@ -86,7 +86,12 @@ public class SingletonGestorCarrinho {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Erro: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                String errorMessage = error.getMessage();
+                if (errorMessage != null) {
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                }
             }
         }) {
             @Override
@@ -130,7 +135,12 @@ public class SingletonGestorCarrinho {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Erro: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                String errorMessage = error.getMessage();
+                if (errorMessage != null) {
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                }
             }
         }) {
             @Override
@@ -169,7 +179,12 @@ public class SingletonGestorCarrinho {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Erro: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                String errorMessage = error.getMessage();
+                if (errorMessage != null) {
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                }
             }
         }) {
             @Override

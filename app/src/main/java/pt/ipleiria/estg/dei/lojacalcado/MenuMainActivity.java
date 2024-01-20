@@ -93,12 +93,8 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         int itemId = item.getItemId();
 
         if (itemId == R.id.navDashboard) {
-            if (isConnectionInternet) {
-                fragment = new DashboardFragment();
-                setTitle(item.getTitle());
-            } else {
-                Toast.makeText(this, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
-            }
+            fragment = new DashboardFragment();
+            setTitle(item.getTitle());
         } else if (itemId == R.id.navListaProdutos) {
             if (isConnectionInternet) {
                 fragment = new ListaProdutosFragment();

@@ -96,8 +96,12 @@ public class SingletonGestorFaturas {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                Toast.makeText(context, "Erro: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                String errorMessage = error.getMessage();
+                if (errorMessage != null) {
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                }
             }
         }) {
             @Override

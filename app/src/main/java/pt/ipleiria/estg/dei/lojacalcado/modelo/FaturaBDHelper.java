@@ -90,9 +90,26 @@ public class FaturaBDHelper extends SQLiteOpenHelper {
                         cursor.getString(2),
                         new ArrayList<>()
                 );
+
+                Cursor cursorLinhas = this.db.query(TABLE_NAME_LINHAS, new String[]{ID, ID_FATURA, ID_PRODUTO, QUANTIDADE, PRECO}, ID_FATURA + " = ?", new String[]{String.valueOf(auxFatura.getId())}, null, null, null);
+                if (cursorLinhas.moveToFirst()) {
+                    do {
+                        FaturaLinha faturaLinha = new FaturaLinha(
+                                cursorLinhas.getInt(0),
+                                cursorLinhas.getInt(1),
+                                cursorLinhas.getInt(2),
+                                cursorLinhas.getInt(3),
+                                cursorLinhas.getDouble(4)
+                        );
+                        auxFatura.getFaturaLinhas().add(faturaLinha);
+                    } while (cursorLinhas.moveToNext());
+                }
+                cursorLinhas.close();
+
                 faturas.add(auxFatura);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         return faturas;
     }
