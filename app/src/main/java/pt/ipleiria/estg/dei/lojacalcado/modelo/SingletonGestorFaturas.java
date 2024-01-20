@@ -27,6 +27,7 @@ import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 public class SingletonGestorFaturas {
     public ArrayList<Fatura> faturas;
     private static SingletonGestorFaturas instance = null;
+    private FaturaBDHelper faturaBDHelper;
     private static RequestQueue volleyQueue = null;
     private String defaultApiUrl= "http://172.22.21.214/Projeto-SIS-PSI/backend/web/api";
     private String savedApiUrl;
@@ -46,6 +47,7 @@ public class SingletonGestorFaturas {
         SharedPreferences sharedPreferencesAPI = context.getSharedPreferences("API", Context.MODE_PRIVATE);
         savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
         faturas = new ArrayList<>();
+        faturaBDHelper = new FaturaBDHelper(context);
     }
 
     public void setFaturasListener(FaturasListener faturasListener) {
@@ -63,6 +65,12 @@ public class SingletonGestorFaturas {
     public void getAllFaturas(final Context context) {
         if (!LojaJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "Não tem ligação á internet", Toast.LENGTH_SHORT).show();
+
+            faturas = (ArrayList<Fatura>) faturaBDHelper.getAllFaturasBD();
+
+            if (faturasListener != null)
+                faturasListener.onRefreshListaFaturas(faturas);
+
             return;
         }
 
@@ -73,6 +81,14 @@ public class SingletonGestorFaturas {
             @Override
             public void onResponse(JSONArray response) {
                 faturas = LojaJsonParser.parserJsonFaturas(response);
+                faturaBDHelper.removerAllFaturasBD();
+
+                for (Fatura fatura : faturas) {
+                    faturaBDHelper.adicionarFaturaBD(fatura);
+                    for (FaturaLinha faturaLinha : fatura.getFaturaLinhas()) {
+                        faturaBDHelper.adicionarFaturaLinhaBD(faturaLinha);
+                    }
+                }
 
                 if (faturasListener != null)
                     faturasListener.onRefreshListaFaturas(faturas);
