@@ -18,6 +18,9 @@
         <item
             android:id="@+id/navPerfilUtilizador"
             android:title="@string/txt_menu_PerfilUtilizador" />
+        <item
+            android:id="@+id/navCarrinho"
+            android:title="@string/txt_menu_Carrinho" />
     </group>
     <item
         android:title="@string/configuracoes" >

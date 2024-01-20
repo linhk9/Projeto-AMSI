@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ipleiria.estg.dei.lojacalcado.modelo.Carrinho;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.CarrinhoLinha;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.Fatura;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.FaturaLinha;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.Produto;
@@ -83,38 +85,74 @@ public class LojaJsonParser {
         return produtos;
     }
 
-    public static ArrayList<Fatura> parserJsonFaturas(JSONObject response) {
+    public static ArrayList<Fatura> parserJsonFaturas(JSONArray response) {
         ArrayList<Fatura> faturas = new ArrayList<>();
-        Fatura faturaObj = null;
+
+        try {
+            for (int i = 0; i < response.length(); i++) {
+                JSONObject faturaJson = response.getJSONObject(i);
+
+                int id = faturaJson.getInt("id");
+                int id_userdata = faturaJson.getInt("id_userdata");
+                String data = faturaJson.getString("data");
+
+                JSONArray faturaLinhasJsonArray = faturaJson.getJSONArray("faturaLinhas");
+                List<FaturaLinha> faturaLinhas = new ArrayList<>();
+
+                for (int j = 0; j < faturaLinhasJsonArray.length(); j++) {
+                    JSONObject faturaLinhaJson = faturaLinhasJsonArray.getJSONObject(j);
+                    int id_faturaLinha = faturaLinhaJson.getInt("id");
+                    int id_fatura = faturaLinhaJson.getInt("id_fatura");
+                    int id_produto = faturaLinhaJson.getInt("id_produto");
+                    int quantidade = faturaLinhaJson.getInt("quantidade");
+                    double preco = faturaLinhaJson.getDouble("preco");
+
+                    FaturaLinha faturaLinha = new FaturaLinha(id_faturaLinha, id_fatura, id_produto, quantidade, preco);
+                    faturaLinhas.add(faturaLinha);
+                }
+
+                Fatura fatura = new Fatura(id, id_userdata, data, faturaLinhas);
+                faturas.add(fatura);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return faturas;
+    }
+
+    public static ArrayList<Carrinho> parserJsonCarrinho(JSONObject response) {
+        ArrayList<Carrinho> carrinho = new ArrayList<>();
+        Carrinho carrinhoObj = null;
 
         try {
             int id = response.getInt("id");
             int id_userdata = response.getInt("id_userdata");
             String data = response.getString("data");
 
-            JSONArray faturaLinhasJsonArray = response.getJSONArray("faturaLinhas");
-            List<FaturaLinha> faturaLinhas = new ArrayList<>();
+            JSONArray carrinhoLinhasJsonArray = response.getJSONArray("carrinhoLinhas");
+            List<CarrinhoLinha> carrinhoLinhas = new ArrayList<>();
 
-            for (int j = 0; j < faturaLinhasJsonArray.length(); j++) {
-                JSONObject faturaLinhaJsonObject = faturaLinhasJsonArray.getJSONObject(j);
+            for (int j = 0; j < carrinhoLinhasJsonArray.length(); j++) {
+                JSONObject carrinhoLinhaJsonObject = carrinhoLinhasJsonArray.getJSONObject(j);
 
-                int faturaLinhaId = faturaLinhaJsonObject.getInt("id");
-                int id_fatura = faturaLinhaJsonObject.getInt("id_fatura");
-                int id_produto = faturaLinhaJsonObject.getInt("id_produto");
-                int quantidade = faturaLinhaJsonObject.getInt("quantidade");
-                double preco = faturaLinhaJsonObject.getDouble("preco");
+                int carrinhoLinhaId = carrinhoLinhaJsonObject.getInt("id");
+                int id_carrinho = carrinhoLinhaJsonObject.getInt("id_carrinho");
+                int id_produto = carrinhoLinhaJsonObject.getInt("id_produto");
+                int quantidade = carrinhoLinhaJsonObject.getInt("quantidade");
+                double preco = carrinhoLinhaJsonObject.getDouble("preco");
 
-                FaturaLinha faturaLinha = new FaturaLinha(faturaLinhaId, id_fatura, id_produto, quantidade, preco);
-                faturaLinhas.add(faturaLinha);
+                CarrinhoLinha carrinhoLinha = new CarrinhoLinha(carrinhoLinhaId, id_carrinho, id_produto, quantidade, preco);
+                carrinhoLinhas.add(carrinhoLinha);
             }
 
-            faturaObj = new Fatura(id, id_userdata, data, faturaLinhas);
-            faturas.add(faturaObj);
+            carrinhoObj = new Carrinho(id, id_userdata, data, carrinhoLinhas);
+            carrinho.add(carrinhoObj);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return faturas;
+        return carrinho;
     }
 
     public static Boolean isConnectionInternet(Context context) {

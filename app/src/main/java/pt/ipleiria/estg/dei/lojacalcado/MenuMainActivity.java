@@ -51,12 +51,12 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
 
         fragmentManager = getSupportFragmentManager();
 
-        carregarFragmentoInicial();
+        carregarFragmento(0);
     }
 
-    private void carregarFragmentoInicial() {
+    private void carregarFragmento(int itemId) {
         Menu menu = navigationView.getMenu();
-        MenuItem menuItem = menu.getItem(0);
+        MenuItem menuItem = menu.getItem(itemId);
         menuItem.setChecked(true);
         onNavigationItemSelected(menuItem);
     }
@@ -69,8 +69,15 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         itemCarrinho.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
-                Intent intent = new Intent(MenuMainActivity.this, CarrinhoActivity.class);
-                startActivity(intent);
+                boolean isConnectionInternet = LojaJsonParser.isConnectionInternet(getApplicationContext());
+
+                if (!isConnectionInternet) {
+                    Toast.makeText(getApplicationContext(), "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                carregarFragmento(4);
+
                 return true;
             }
         });
@@ -102,6 +109,13 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
         } else if (itemId == R.id.navHistorico) {
             fragment = new ListaFaturasFragment();
             setTitle(item.getTitle());
+        } else if (itemId == R.id.navCarrinho) {
+            if (isConnectionInternet) {
+                fragment = new ListaCarrinhoFragment();
+                setTitle(item.getTitle());
+            } else {
+                Toast.makeText(this, "Não tem ligação à internet", Toast.LENGTH_SHORT).show();
+            }
         } else if (itemId == R.id.navPerfilUtilizador) {
             if (isConnectionInternet) {
                 Intent intent = new Intent(this, PerfilActivity.class);

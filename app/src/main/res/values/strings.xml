@@ -23,18 +23,22 @@
     <string name="ndClose">Close</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="nome">Nome:</string>
-    <string name="categoria">Categoria:</string>
-    <string name="preco">Preço:</string>
-    <string name="marca">Marca:</string>
+    <string name="nome">Nome: </string>
+    <string name="categoria">Categoria: </string>
+    <string name="preco">Preço: </string>
+    <string name="marca">Marca: </string>
     <string name="pesquisar">Pesquisar</string>
-    <string name="stock">Stock:</string>
-    <string name="descricao">Descricao:</string>
-    <string name="tamanho">Tamanho:</string>
-    <string name="cores">Cores:</string>
+    <string name="stock">Stock: </string>
+    <string name="descricao">Descricao: </string>
+    <string name="tamanho"> </string>
+    <string name="cores">Cores: </string>
     <string name="txt_menu_Dashboard">Dashboard</string>
     <string name="data_da_compra">Data da Compra: </string>
     <string name="total_produtos_compras">Total Produtos Compras: </string>
     <string name="preco_total">Preço Total: </string>
     <string name="id">Id: </string>
+    <string name="total">"Total: "</string>
+    <string name="txt_menu_Carrinho">Carrinho de Compras</string>
+    <string name="quantidade">Quantidade: </string>
+    <string name="id_produto">"Produto ID: "</string>
 </resources>
