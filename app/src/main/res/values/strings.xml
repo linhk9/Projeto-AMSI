@@ -32,4 +32,5 @@
     <string name="descricao">Descricao:</string>
     <string name="tamanho">Tamanho:</string>
     <string name="cores">Cores:</string>
+    <string name="txt_menu_Dashboard">Dashboard</string>
 </resources>
