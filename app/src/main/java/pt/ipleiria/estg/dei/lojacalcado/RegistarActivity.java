@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonUserManager;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorLoja;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
 public class RegistarActivity extends AppCompatActivity {
@@ -86,7 +86,7 @@ public class RegistarActivity extends AppCompatActivity {
                 return;
             }
 
-            SingletonUserManager.getInstance(getApplicationContext()).registo(username, password, email, primeiroNome, ultimoNome, telemovel, morada, this);
+            SingletonGestorLoja.getInstance(getApplicationContext()).registo(username, password, email, primeiroNome, ultimoNome, telemovel, morada, this);
         }
     }
 }

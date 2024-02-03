@@ -20,15 +20,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.lojacalcado.adaptadores.ListaCarrinhoAdaptador;
-import pt.ipleiria.estg.dei.lojacalcado.adaptadores.ListaFaturasAdaptador;
 import pt.ipleiria.estg.dei.lojacalcado.listeners.CarrinhoListener;
-import pt.ipleiria.estg.dei.lojacalcado.listeners.FaturasListener;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.Carrinho;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.CarrinhoLinha;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.Fatura;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorCarrinho;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorFaturas;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorProdutos;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorLoja;
 
 public class ListaCarrinhoFragment extends Fragment implements CarrinhoListener {
     private ListView lvCarrinho;
@@ -48,8 +43,8 @@ public class ListaCarrinhoFragment extends Fragment implements CarrinhoListener 
         setHasOptionsMenu(true);
 
         lvCarrinho = view.findViewById(R.id.lvCarrinho);
-        SingletonGestorCarrinho.getInstance(getContext()).setCarrinhoListener(this);
-        SingletonGestorCarrinho.getInstance(getContext()).getCarrinho(getContext());
+        SingletonGestorLoja.getInstance(getContext()).setCarrinhoListener(this);
+        SingletonGestorLoja.getInstance(getContext()).getCarrinho(getContext());
 
         // Click num item da lista
         lvCarrinho.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,7 +58,7 @@ public class ListaCarrinhoFragment extends Fragment implements CarrinhoListener 
         fabCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SingletonGestorCarrinho.getInstance(getContext()).checkout(getContext());
+                SingletonGestorLoja.getInstance(getContext()).checkout(getContext());
             }
         });
 
@@ -77,7 +72,7 @@ public class ListaCarrinhoFragment extends Fragment implements CarrinhoListener 
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        SingletonGestorCarrinho.getInstance(context).removerProduto(context, id);
+                        SingletonGestorLoja.getInstance(context).removerProduto(context, id);
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -93,7 +88,7 @@ public class ListaCarrinhoFragment extends Fragment implements CarrinhoListener 
     @Override
     public void onRefreshListaCarrinho(ArrayList<Carrinho> listaCarrinho) {
         if (lvCarrinho != null) {
-            ArrayList<CarrinhoLinha> carrinhoLinhas = SingletonGestorCarrinho.getInstance(getContext()).getCarrinhoLinhas(listaCarrinho);
+            ArrayList<CarrinhoLinha> carrinhoLinhas = SingletonGestorLoja.getInstance(getContext()).getCarrinhoLinhas(listaCarrinho);
             lvCarrinho.setAdapter(new ListaCarrinhoAdaptador(getContext(), carrinhoLinhas));
 
             TextView tvTotal = getView().findViewById(R.id.tvTotal);

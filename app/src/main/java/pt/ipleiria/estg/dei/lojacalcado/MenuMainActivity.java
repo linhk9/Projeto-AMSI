@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonUserManager;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorLoja;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
 
@@ -123,7 +123,7 @@ public class MenuMainActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(this, ConfigurarApiActivity.class);
             startActivity(intent);
         } else if (itemId == R.id.navLogout) {
-            SingletonUserManager.getInstance(getApplicationContext()).logout(this);
+            SingletonGestorLoja.getInstance(getApplicationContext()).logout(this);
             finish();
         }
 

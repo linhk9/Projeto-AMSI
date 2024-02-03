@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonUserManager;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorLoja;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
 public class LoginActivity extends AppCompatActivity {
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                SingletonUserManager.getInstance(getApplicationContext()).login(username, password, this);
+                SingletonGestorLoja.getInstance(getApplicationContext()).login(username, password, this);
             }
         } else {
             Toast.makeText(getApplicationContext(), "Precisas de definir o URL da API", Toast.LENGTH_SHORT).show();

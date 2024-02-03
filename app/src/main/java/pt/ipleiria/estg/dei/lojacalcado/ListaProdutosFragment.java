@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import pt.ipleiria.estg.dei.lojacalcado.adaptadores.ListaProdutosAdaptador;
 import pt.ipleiria.estg.dei.lojacalcado.listeners.ProdutosListener;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.Produto;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorProdutos;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorLoja;
 
 public class ListaProdutosFragment extends Fragment implements ProdutosListener {
     private ListView lvProdutos;
@@ -41,8 +41,8 @@ public class ListaProdutosFragment extends Fragment implements ProdutosListener 
         setHasOptionsMenu(true);
 
         lvProdutos = view.findViewById(R.id.lvProdutos);
-        SingletonGestorProdutos.getInstance(getContext()).setProdutosListener(this);
-        SingletonGestorProdutos.getInstance(getContext()).getAllProdutos(getContext());
+        SingletonGestorLoja.getInstance(getContext()).setProdutosListener(this);
+        SingletonGestorLoja.getInstance(getContext()).getAllProdutos(getContext());
 
         // Click num item da lista
         lvProdutos.setOnItemClickListener(new AdapterView.OnItemClickListener() {

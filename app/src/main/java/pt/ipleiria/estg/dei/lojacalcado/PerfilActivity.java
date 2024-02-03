@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import pt.ipleiria.estg.dei.lojacalcado.listeners.UserListener;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonUserManager;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorLoja;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.User;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
@@ -27,7 +27,7 @@ public class PerfilActivity extends AppCompatActivity implements UserListener {
 
         setTitle("Perfil do Utilizador");
 
-        SingletonUserManager.getInstance(getApplicationContext()).setUserListener(this);
+        SingletonGestorLoja.getInstance(getApplicationContext()).setUserListener(this);
 
         SharedPreferences sharedPreferencesAPI = getSharedPreferences("API_URL", MODE_PRIVATE);
         savedApiUrl = sharedPreferencesAPI.getString("API_URL", defaultApiUrl);
@@ -39,7 +39,7 @@ public class PerfilActivity extends AppCompatActivity implements UserListener {
         etTelemovel = findViewById(R.id.etTelemovel);
         etMorada = findViewById(R.id.etMorada);
 
-        SingletonUserManager.getInstance(getApplicationContext()).carregarPerfil(this);
+        SingletonGestorLoja.getInstance(getApplicationContext()).carregarPerfil(this);
     }
 
     private void validarEmail(String email) {
@@ -79,7 +79,7 @@ public class PerfilActivity extends AppCompatActivity implements UserListener {
                 return;
             }
 
-            SingletonUserManager.getInstance(getApplicationContext()).editarPerfil(email, primeiroNome, ultimoNome, telemovel, morada, this);
+            SingletonGestorLoja.getInstance(getApplicationContext()).editarPerfil(email, primeiroNome, ultimoNome, telemovel, morada, this);
         }
     }
 

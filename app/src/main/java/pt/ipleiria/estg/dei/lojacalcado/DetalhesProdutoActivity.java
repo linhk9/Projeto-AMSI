@@ -13,8 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import pt.ipleiria.estg.dei.lojacalcado.modelo.Produto;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorProdutos;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonUserManager;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorLoja;
 
 public class DetalhesProdutoActivity extends AppCompatActivity {
     public static final String ID_Produto = "ID_Produto";
@@ -41,7 +40,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
 
         int id = getIntent().getIntExtra(ID_Produto, 0);
         if (id != 0) {
-            produto = SingletonGestorProdutos.getInstance(getApplicationContext()).getProduto(id);
+            produto = SingletonGestorLoja.getInstance(getApplicationContext()).getProduto(id);
             if (produto != null) {
                 carregarInfoProduto();
                 fabAdicionar.setImageResource(R.drawable.ic_action_adicionar);
@@ -53,7 +52,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (produto != null) {
-                    SingletonGestorProdutos.getInstance(getApplicationContext()).adicionarProdutoCarrinho(produto, getApplicationContext());
+                    SingletonGestorLoja.getInstance(getApplicationContext()).adicionarProdutoCarrinho(produto, getApplicationContext());
                 }
             }
         });

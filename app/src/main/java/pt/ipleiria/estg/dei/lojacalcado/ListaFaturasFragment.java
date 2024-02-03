@@ -19,10 +19,9 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.lojacalcado.adaptadores.ListaFaturasAdaptador;
-import pt.ipleiria.estg.dei.lojacalcado.adaptadores.ListaProdutosAdaptador;
 import pt.ipleiria.estg.dei.lojacalcado.listeners.FaturasListener;
 import pt.ipleiria.estg.dei.lojacalcado.modelo.Fatura;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorFaturas;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorLoja;
 
 public class ListaFaturasFragment extends Fragment implements FaturasListener {
     private ListView lvFaturas;
@@ -42,8 +41,8 @@ public class ListaFaturasFragment extends Fragment implements FaturasListener {
         setHasOptionsMenu(true);
 
         lvFaturas = view.findViewById(R.id.lvFaturas);
-        SingletonGestorFaturas.getInstance(getContext()).setFaturasListener(this);
-        SingletonGestorFaturas.getInstance(getContext()).getAllFaturas(getContext());
+        SingletonGestorLoja.getInstance(getContext()).setFaturasListener(this);
+        SingletonGestorLoja.getInstance(getContext()).getAllFaturas(getContext());
 
         // Click num item da lista
         lvFaturas.setOnItemClickListener(new AdapterView.OnItemClickListener() {

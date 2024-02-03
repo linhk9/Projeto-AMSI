@@ -17,9 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorCarrinho;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorFaturas;
-import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorProdutos;
+import pt.ipleiria.estg.dei.lojacalcado.modelo.SingletonGestorLoja;
 import pt.ipleiria.estg.dei.lojacalcado.utils.LojaJsonParser;
 
 
@@ -38,13 +36,13 @@ public class DashboardFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        totalFaturasEmitidas = SingletonGestorFaturas.getInstance(getContext()).getTotalFaturas();
+        totalFaturasEmitidas = SingletonGestorLoja.getInstance(getContext()).getTotalFaturas();
 
         if (!LojaJsonParser.isConnectionInternet(getContext())) {
             Toast.makeText(getContext(), "Não tem ligação á internet para carregar os dados", Toast.LENGTH_SHORT).show();
         } else {
-            totalProdutosCarrinho = SingletonGestorCarrinho.getInstance(getContext()).getTotalProdutosCarrinho();
-            totalProdutosLoja = SingletonGestorProdutos.getInstance(getContext()).getTotalProdutos();
+            totalProdutosCarrinho = SingletonGestorLoja.getInstance(getContext()).getTotalProdutosCarrinho();
+            totalProdutosLoja = SingletonGestorLoja.getInstance(getContext()).getTotalProdutos();
         }
 
         LinearLayout llContainer = new LinearLayout(container.getContext());
