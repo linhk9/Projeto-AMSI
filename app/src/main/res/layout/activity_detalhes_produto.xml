@@ -19,7 +19,7 @@
         android:layout_margin="16dp"
         android:backgroundTint="@color/red"
         android:focusable="true"
-        android:src="@drawable/ic_action_adicionar"
+        android:src="@drawable/ic_action_add_carrinho"
         app:tint="@android:color/white" />
 
     <LinearLayout

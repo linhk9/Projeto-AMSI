@@ -43,7 +43,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
             produto = SingletonGestorLoja.getInstance(getApplicationContext()).getProduto(id);
             if (produto != null) {
                 carregarInfoProduto();
-                fabAdicionar.setImageResource(R.drawable.ic_action_adicionar);
+                fabAdicionar.setImageResource(R.drawable.ic_action_add_carrinho);
             } else
                 finish();
         }
